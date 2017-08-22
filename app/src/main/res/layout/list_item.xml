@@ -3,14 +3,18 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="16dp">
+    android:paddingEnd="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingStart="16dp">
     <ImageView
         android:id="@+id/cover_image_view"
         android:src="@mipmap/ic_launcher"
+        android:contentDescription="thumbnail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="1"
@@ -21,12 +25,17 @@
             android:id="@+id/title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="16sp"
             android:text="Title"/>
         <TextView
             android:id="@+id/author_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:textSize="12sp"
+            android:maxLines="1"
             android:text="Author"/>
     </LinearLayout>
     <LinearLayout
@@ -40,12 +49,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:textSize="12sp"
             android:text="Rating"/>
         <TextView
             android:id="@+id/rating_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textSize="12sp"
             android:text="4.5"/>
     </LinearLayout>
 </LinearLayout>

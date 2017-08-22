@@ -27,8 +27,9 @@ public final class QueryUtils {
     private QueryUtils(){}
 
     public static ArrayList<Book> fetchBookData(String requestUrl){
+        Log.v("Query Utils","Fetching Books Data");
         try{
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         }catch(InterruptedException e){
             e.printStackTrace();
         }
@@ -46,6 +47,7 @@ public final class QueryUtils {
     }
 
     private static URL createUrl(String stringUrl){
+        Log.v("Query Utils","Creating URL");
         URL url = null;
         try{
             url = new URL(stringUrl);
@@ -56,6 +58,7 @@ public final class QueryUtils {
     }
 
     private static String makeHttpRequest(URL url) throws IOException{
+        Log.v("Query Utils","Requesting from Server");
         String jsonResponse = "";
 
         if(url == null){
@@ -93,6 +96,7 @@ public final class QueryUtils {
     }
 
     private static String readFromStream(InputStream inputStream) throws IOException {
+        Log.v("Query Utils","Reading from Stream");
         StringBuilder output = new StringBuilder();
 
         if(inputStream != null){
@@ -109,6 +113,7 @@ public final class QueryUtils {
     }
 
     private static ArrayList<Book> extractBooks(String booksJSON){
+        Log.v("Query Utils","Extracting Books from Response");
         ArrayList<Book> books = new ArrayList<Book>();
 
         try{
@@ -129,16 +134,22 @@ public final class QueryUtils {
                 }
 
                 Double bookRating;
-                if(book.has("averageRating")){
-                    bookRating = book.getDouble("averageRating");
+                if(bookInfo.has("averageRating")){
+                    bookRating = bookInfo.getDouble("averageRating");
                 }else{
                     bookRating = 0.0;
                 }
 
-                JSONObject imageLinks = book.getJSONObject("imageLinks");
+                String bookCoverUrl = "";
+                if(bookInfo.has("imageLinks")){
+                    JSONObject imageLinks = bookInfo.getJSONObject("imageLinks");
+                    bookCoverUrl = imageLinks.getString("smallThumbnail");
+                }
 
-                String bookCoverUrl = imageLinks.getString("smallThumbnail");
-                String bookInfoUrl = book.getString("infoLink");
+                String bookInfoUrl = "";
+                if(bookInfo.has("infoLink")){
+                    bookInfoUrl = bookInfo.getString("infoLink");
+                }
 
                 Book newBook = new Book(bookTitle,bookAuthors,bookRating,bookCoverUrl,bookInfoUrl);
 
@@ -150,10 +161,12 @@ public final class QueryUtils {
             Log.e("QueryUtils","Problem parsing the Books JSON",e);
         }
 
+//        Log.v("Query Utils","We got these books: "+books.toString());
         return books;
     }
 
     private static String formatBookAuthors(JSONArray bookAuthors) throws JSONException{
+        Log.v("Query Utils","Formatting some Authors");
         StringBuilder builder = new StringBuilder();
 
         for(int i = 0; i < bookAuthors.length();i++){

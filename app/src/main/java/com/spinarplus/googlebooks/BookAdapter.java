@@ -59,7 +59,9 @@ public class BookAdapter extends ArrayAdapter<Book> {
         ratingTextView.setText(rating + "");
 
         ImageView coverImageView = (ImageView) listViewItem.findViewById(R.id.cover_image_view);
-        new DownloadImageTask(coverImageView).execute(coverUrl);
+        if(coverUrl != ""){
+            new DownloadImageTask(coverImageView).execute(coverUrl);
+        }
 
         return listViewItem;
     }
